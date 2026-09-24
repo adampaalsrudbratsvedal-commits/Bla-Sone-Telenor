@@ -208,6 +208,19 @@ docker compose logs -f ticket-service
 - Allocate more RAM to Docker Desktop (8GB recommended)
 - Close other memory-intensive applications
 
+## 🎤 Producer Tag on `git push`
+
+Every `git push` can drop a producer tag ("Blå Sone… on the beat" over an 808) in the background. Enable it once per clone:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+- Plays on macOS (`afplay`), Windows/Git Bash (PowerShell), and Linux (`pw-play`, `paplay`, `aplay` or `ffplay`)
+- Never slows down or blocks a push; if no audio player is found it stays silent
+- Skip it for one push: `PRODUCER_TAG=off git push`
+- Use your own tag: replace `.githooks/producer-tag.wav` with any WAV file
+
 ## 🆘 Getting Help
 
 If you're stuck:

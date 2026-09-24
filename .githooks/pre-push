@@ -1,0 +1,37 @@
+#!/bin/sh
+# Plays the producer tag in the background every time you `git push`.
+#
+# Enable once per clone:   git config core.hooksPath .githooks
+# Skip it for one push:    PRODUCER_TAG=off git push
+#
+# The hook never blocks or fails a push: playback is detached, and if no
+# audio player is available it silently does nothing.
+
+[ "${PRODUCER_TAG:-on}" = "off" ] && exit 0
+
+tag="$(cd "$(dirname "$0")" && pwd)/producer-tag.wav"
+[ -f "$tag" ] || exit 0
+
+play_tag() {
+  case "$(uname -s)" in
+    Darwin)
+      afplay "$tag" ;;
+    MINGW* | MSYS* | CYGWIN*)
+      win_path=$(cygpath -w "$tag" | sed "s/'/''/g")
+      powershell.exe -NoProfile -NonInteractive -Command \
+        "(New-Object Media.SoundPlayer '$win_path').PlaySync()" ;;
+    *)
+      for player in pw-play paplay aplay; do
+        if command -v "$player" >/dev/null 2>&1; then
+          "$player" "$tag"
+          return
+        fi
+      done
+      if command -v ffplay >/dev/null 2>&1; then
+        ffplay -nodisp -autoexit -loglevel quiet "$tag"
+      fi ;;
+  esac
+}
+
+play_tag >/dev/null 2>&1 </dev/null &
+exit 0
