@@ -3,7 +3,7 @@ import { CustomerPriority, TicketWithCustomer } from "../schemas";
 import { TicketFilters } from "../types/filters";
 
 export const useTicketFilters = (tickets: TicketWithCustomer[]) => {
-  // Filter state
+  // Filter statedd
   const [filters, setFilters] = useState<TicketFilters>({
     services: [],
     statuses: [],
