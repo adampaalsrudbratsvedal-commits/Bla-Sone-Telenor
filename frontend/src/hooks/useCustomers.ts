@@ -6,8 +6,10 @@ import { useErrorHandler } from "./useErrorHandler";
 
 // Customer Service API
 export const getCustomer = async (id: string): Promise<Customer> => {
-  // TODO: TASK 5
-  throw new Error("TASK 5: Not implemented");
+  // TODO: TASK 5a
+  const response = await fetch(`/api/customers/${id}`);
+  if (!response.ok) throw new Error("Failed to fetch customer");
+  return response.json();
 };
 
 export const useCustomers = () => {
